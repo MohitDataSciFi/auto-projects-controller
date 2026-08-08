@@ -25,8 +25,9 @@ jobs:
       - name: Authenticate GitHub CLI
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: gh auth status
-
+        run: |
+          gh auth status
+          gh auth setup-git
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
 
