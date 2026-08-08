@@ -102,7 +102,17 @@ def main():
     auth_remote = f"https://{GITHUB_USER}:{gh_token}@github.com/{GITHUB_USER}/{repo_name}.git"
     run_cmd(["git", "remote", "set-url", "origin", auth_remote], cwd=repo_dir)
 
+    # Create an initial commit on main so GitHub has a base branch for the PR
+    with open(os.path.join(repo_dir, ".gitkeep"), "w") as f:
+        f.write("")
+    run_cmd(["git", "add", ".gitkeep"], cwd=repo_dir)
+    run_cmd(["git", "commit", "-m", "chore: initial repo setup"], cwd=repo_dir)
+    run_cmd(["git", "branch", "-M", "main"], cwd=repo_dir)
+    run_cmd(["git", "push", "-u", "origin", "main"], cwd=repo_dir)
+
+    # Now branch off to dev for all real work
     run_cmd(["git", "checkout", "-b", "dev"], cwd=repo_dir)
+
     
     # Determine number of commits
     num_commits = random.randint(5, 10)
