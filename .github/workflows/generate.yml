@@ -47,8 +47,11 @@ jobs:
 
       - name: Commit and push updated state
         run: |
-          # Use GH_PAT directly — guaranteed write access to all repos on this account
+          # actions/checkout sets an extraheader with the default GITHUB_TOKEN which
+          # overrides URL-embedded credentials. Unset it so our GH_PAT takes effect.
+          git config --local --unset-all http.https://github.com/.extraheader || true
           git remote set-url origin https://MohitDataSciFi:${{ secrets.GH_PAT }}@github.com/MohitDataSciFi/auto-projects-controller.git
           git add state.json
           git diff --cached --quiet || git commit -m "chore: update state.json after project generation"
           git push
+
