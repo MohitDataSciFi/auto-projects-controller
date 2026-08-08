@@ -90,7 +90,7 @@ def main():
     lang = project["language"].lower()
     
     date_str = datetime.datetime.now().strftime("%Y%m%d")
-    repo_name = f"{slug}-{date_str}"
+    repo_name = slug
     print(f"Selected project: {slug} ({lang})")
     
     code_content = generate_code_with_llm(lang, desc, api_key)
