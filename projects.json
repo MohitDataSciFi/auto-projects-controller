@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "csv-data-validator",
+    "description": "A script that validates CSV schemas and flags anomalies",
+    "language": "python"
+  },
+  {
+    "slug": "api-data-fetcher",
+    "description": "Pulls data from a public API and stores it as parquet",
+    "language": "python"
+  },
+  {
+    "slug": "sql-query-optimizer",
+    "description": "Analyzes SQL queries and suggests index improvements",
+    "language": "rust"
+  },
+  {
+    "slug": "eda-report-generator",
+    "description": "Auto-generates an EDA report (profiling) for any CSV",
+    "language": "python"
+  },
+  {
+    "slug": "fast-csv-parser",
+    "description": "A high-performance CSV parsing and filtering tool",
+    "language": "rust"
+  },
+  {
+    "slug": "data-quality-dashboard",
+    "description": "A lightweight application showing null percentages, data types, and outliers for datasets",
+    "language": "python"
+  },
+  {
+    "slug": "cli-json-flattener",
+    "description": "A fast CLI tool that flattens deeply nested JSON files into tabular formats",
+    "language": "rust"
+  },
+  {
+    "slug": "web-scraper-template",
+    "description": "A robust scraper template with rate-limiting and retry logic",
+    "language": "python"
+  },
+  {
+    "slug": "etl-pipeline-mini",
+    "description": "A small zero-dependency ETL tool: extract, transform, load to SQLite",
+    "language": "python"
+  },
+  {
+    "slug": "ml-model-baseline",
+    "description": "Trains and evaluates a baseline scikit-learn model on sample data",
+    "language": "python"
+  },
+  {
+    "slug": "parquet-metadata-viewer",
+    "description": "A fast utility to read and display Parquet file metadata and schema",
+    "language": "rust"
+  },
+  {
+    "slug": "redis-cache-sync",
+    "description": "A tool that syncs specific database tables to a Redis cache",
+    "language": "rust"
+  }
+]

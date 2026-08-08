@@ -1,0 +1,48 @@
+name: Generate DS/DE Project
+
+on:
+  schedule:
+    # Runs twice a day (10:00 and 16:00 UTC) on weekdays (Monday through Friday)
+    # This equals 10 times a week.
+    - cron: '0 10,16 * * 1-5'
+  workflow_dispatch: # Allows manual trigger from the Actions tab
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Authenticate GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: gh auth status
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Configure Git for state update
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run generation script
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: python generate_project.py
+
+      - name: Commit and push updated state
+        run: |
+          git add state.json
+          git commit -m "chore: update state.json after project generation" || echo "No changes to commit"
+          git push
