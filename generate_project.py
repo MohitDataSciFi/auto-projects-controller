@@ -69,6 +69,10 @@ def main():
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key:
         raise ValueError("DEEPSEEK_API_KEY environment variable not set")
+
+    gh_token = os.environ.get("GH_TOKEN")
+    if not gh_token:
+        raise ValueError("GH_TOKEN environment variable not set")
         
     with open("projects.json", "r") as f:
         projects = json.load(f)
@@ -93,6 +97,11 @@ def main():
     
     run_cmd(["gh", "repo", "create", f"{GITHUB_USER}/{repo_name}", "--public", "--description", desc, "--clone"])
     repo_dir = repo_name
+
+    # Embed PAT directly into remote URL — most reliable auth in non-interactive CI
+    auth_remote = f"https://{GITHUB_USER}:{gh_token}@github.com/{GITHUB_USER}/{repo_name}.git"
+    run_cmd(["git", "remote", "set-url", "origin", auth_remote], cwd=repo_dir)
+
     run_cmd(["git", "checkout", "-b", "dev"], cwd=repo_dir)
     
     # Determine number of commits
