@@ -1,6 +1,7 @@
 {
   "used_slugs": [
-    "eda-report-generator"
+    "eda-report-generator",
+    "data-quality-dashboard"
   ],
   "run_history": [
     {
@@ -8,6 +9,12 @@
       "repo": "eda-report-generator",
       "slug": "eda-report-generator",
       "commits_made": 9
+    },
+    {
+      "date": "20260809",
+      "repo": "data-quality-dashboard",
+      "slug": "data-quality-dashboard",
+      "commits_made": 5
     }
   ]
 }
