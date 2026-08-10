@@ -9,7 +9,9 @@ on:
 
 # GH_TOKEN set at job level so every step AND every subprocess (git push) can see it
 env:
-  GH_TOKEN: ${{ secrets.GH_PAT }}
+  GH_TOKEN:           ${{ secrets.GH_PAT }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
 
 permissions:
   contents: write

@@ -6,12 +6,13 @@ Handles all Telegram interaction for the YES/NO approval loop.
 - Auto-approves if no clear answer within 1 hour total
 """
 
+import os
 import time
 import requests
 from graph.state import ProjectState
 
-TELEGRAM_BOT_TOKEN = "***TELEGRAM_TOKEN_REDACTED***"
-TELEGRAM_CHAT_ID   = "***CHAT_ID_REDACTED***"
+TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+TELEGRAM_CHAT_ID   = os.environ["TELEGRAM_CHAT_ID"]
 TELEGRAM_API       = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
 DEEPSEEK_API_URL   = "https://api.deepseek.com/chat/completions"
 

@@ -3,15 +3,17 @@ Nodes: update_state, send_report
 Saves progress to state.json and sends the Telegram daily report.
 """
 
+import os
 import json
 import shutil
 import datetime
 import requests
 from graph.state import ProjectState
 
-TELEGRAM_BOT_TOKEN = "***TELEGRAM_TOKEN_REDACTED***"
-TELEGRAM_CHAT_ID   = "***CHAT_ID_REDACTED***"
+TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+TELEGRAM_CHAT_ID   = os.environ["TELEGRAM_CHAT_ID"]
 TELEGRAM_API       = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
+
 
 
 def _tg_send(text: str):
@@ -92,6 +94,3 @@ def send_report(state: ProjectState) -> dict:
     print(f"[send_report] Daily report sent to Telegram.")
     return {}
 
-
-# Fix missing import
-import os
