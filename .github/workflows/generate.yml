@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Random delay (spreads run between 9 AM and 12 PM IST)
-        # Sleeps a random number of seconds up to 10800 (= 3 hours)
+        if: github.event_name == 'schedule'
         run: sleep $((RANDOM % 10800))
 
       - name: Check out repository
