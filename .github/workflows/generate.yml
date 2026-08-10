@@ -44,10 +44,10 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Run generation script
+      - name: Run LangGraph automation
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-        run: python generate_project.py
+        run: python main.py
 
       - name: Commit and push updated state
         run: |
