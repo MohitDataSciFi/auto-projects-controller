@@ -1,5 +1,11 @@
 {
   "active_project": null,
+  "curriculum_state": {
+    "topic_order": 1,
+    "level": 1,
+    "week_number": 1,
+    "projects_done_in_topic": 0
+  },
   "used_slugs": [
     "eda-report-generator",
     "data-quality-dashboard",

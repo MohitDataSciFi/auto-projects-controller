@@ -8,13 +8,13 @@ from langgraph.graph import END
 def route_after_check(state: dict) -> str:
     """
     After check_ongoing_project:
-      - active project exists  →  build_next_phase (resume today's phase)
-      - no active project      →  research_trending_tech (start fresh)
+      - active project exists  →  build_next_phase
+      - no active project      →  select_from_curriculum
     """
     active = state.get("active_project")
     if active and active.get("slug"):
         return "build_next_phase"
-    return "research_trending_tech"
+    return "select_from_curriculum"
 
 
 def route_after_approval(state: dict) -> str:

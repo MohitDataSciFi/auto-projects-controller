@@ -1,0 +1,324 @@
+{
+  "topics": [
+    {
+      "id": "linear_regression",
+      "order": 1,
+      "name": "Linear Regression & Regression Analysis",
+      "skill_tags": ["regression", "OLS", "gradient_descent", "numpy", "sklearn", "statsmodels"],
+      "description": "Foundation of supervised learning — from implementing OLS from scratch to regularized production regression systems.",
+      "levels": {
+        "1": "Implement simple linear regression from scratch using numpy. No libraries. Manual gradient descent, cost function, and visualization.",
+        "2": "Multiple linear regression on a real dataset (e.g., housing prices). Feature engineering, train/test split, evaluation metrics (MSE, R2, MAE), matplotlib plots.",
+        "3": "Production REST API for regression predictions. FastAPI endpoint, input validation with Pydantic, model serialization with joblib, logging, and unit tests.",
+        "4": "Regularized regression system (Ridge, Lasso, ElasticNet). Cross-validation, hyperparameter tuning with Optuna, coefficient path visualization.",
+        "5": "Polynomial + interaction feature regression pipeline. Automated feature selection, VIF analysis, residual diagnostics, and a CLI interface.",
+        "6": "Bayesian linear regression with uncertainty quantification using PyMC. Posterior sampling, credible intervals, and comparison to frequentist OLS.",
+        "7": "Production-grade regression microservice with MLflow experiment tracking, model versioning, drift detection, and a Gradio dashboard."
+      }
+    },
+    {
+      "id": "statistics_probability",
+      "order": 2,
+      "name": "Statistics & Probability",
+      "skill_tags": ["hypothesis_testing", "probability", "distributions", "scipy", "statsmodels", "pandas"],
+      "description": "Core statistical foundations — from probability distributions to hypothesis testing engines.",
+      "levels": {
+        "1": "Probability distribution explorer: implement and visualize Normal, Binomial, Poisson, Exponential distributions from scratch with numpy.",
+        "2": "Statistical summary CLI tool: computes descriptive stats, detects outliers (IQR, Z-score), generates distribution fit reports on CSV data.",
+        "3": "Hypothesis testing engine: t-test, chi-square, ANOVA, Mann-Whitney U. FastAPI API accepting datasets and returning test results with p-values and effect sizes.",
+        "4": "Bootstrap confidence interval calculator with Monte Carlo simulation. Supports any custom statistic. Parallelized with concurrent.futures.",
+        "5": "Combined: Statistical regression diagnostics tool — integrates regression (Topic 1) with full residual analysis, normality tests, and heteroscedasticity detection.",
+        "6": "Bayesian inference engine from scratch: Markov Chain Monte Carlo (MCMC) with Metropolis-Hastings algorithm. Compare to scipy.stats benchmarks.",
+        "7": "Production statistical monitoring system: tracks data distributions over time, detects drift (KS test, PSI), sends alerts, logs to PostgreSQL."
+      }
+    },
+    {
+      "id": "advanced_statistics",
+      "order": 3,
+      "name": "Advanced Statistics & Inference",
+      "skill_tags": ["survival_analysis", "causal_inference", "time_series_stats", "mixed_models", "scipy", "lifelines", "pymc"],
+      "description": "Graduate-level statistical methods — survival analysis, causal graphs, and multilevel modeling.",
+      "levels": {
+        "1": "Survival analysis toolkit: Kaplan-Meier estimator from scratch, log-rank test, hazard functions with lifelines validation.",
+        "2": "Propensity score matching for observational study analysis. Matching diagnostics, love plots, ATT/ATE estimation.",
+        "3": "Mixed-effects model API: longitudinal data analysis, random intercepts/slopes, model comparison (AIC/BIC). FastAPI + statsmodels.",
+        "4": "Structural equation modeling (SEM) implementation: path diagrams, latent variables, goodness-of-fit indices.",
+        "5": "Combined: Causal inference pipeline — DAG specification, backdoor criterion, do-calculus, propensity scoring, and regression adjustment in one system.",
+        "6": "Extreme value theory engine: Generalized Extreme Value (GEV) distribution fitting, return period estimation, risk quantification for financial/climate data.",
+        "7": "Full Bayesian hierarchical modeling system with PyMC: partial pooling, group-level effects, posterior predictive checks, and ARVIZ diagnostics dashboard."
+      }
+    },
+    {
+      "id": "linear_algebra",
+      "order": 4,
+      "name": "Linear Algebra for ML",
+      "skill_tags": ["matrix_ops", "eigendecomposition", "SVD", "numpy", "scipy.linalg", "numba"],
+      "description": "The mathematical backbone of all ML — from matrix operations to SVD-based algorithms.",
+      "levels": {
+        "1": "Matrix operations library from scratch: multiplication, inversion, determinant, LU decomposition — no numpy linear algebra allowed.",
+        "2": "Eigendecomposition explorer: power iteration, QR algorithm, visualizing eigenvectors/eigenvalues with animated matplotlib.",
+        "3": "SVD-based image compression tool: compress grayscale images at variable rank approximations, compare PSNR/SSIM metrics. CLI + FastAPI.",
+        "4": "PageRank algorithm implementation using power iteration and sparse matrix operations on real web graph data.",
+        "5": "Combined: Linear regression via SVD (pseudoinverse) vs OLS vs gradient descent — performance benchmark and numerical stability analysis.",
+        "6": "Numba-accelerated linear algebra library: JIT-compiled matrix operations outperforming numpy for specific dimensions. Benchmarking suite.",
+        "7": "Randomized SVD engine (a la sklearn's TruncatedSVD) with NYSTROM approximation for kernel matrices — production-grade with memory profiling."
+      }
+    },
+    {
+      "id": "pca_dimensionality",
+      "order": 5,
+      "name": "PCA & Dimensionality Reduction",
+      "skill_tags": ["PCA", "t-SNE", "UMAP", "autoencoders", "sklearn", "umap-learn", "plotly"],
+      "description": "From classical PCA to modern manifold learning — dimensionality reduction for visualization and ML pipelines.",
+      "levels": {
+        "1": "PCA from scratch using eigendecomposition. Explained variance, scree plots, 2D/3D projections on IRIS and MNIST.",
+        "2": "Dimensionality reduction comparison tool: PCA vs t-SNE vs UMAP on multiple datasets. Interactive Plotly visualizations.",
+        "3": "Production feature reduction pipeline: PCA preprocessing → model training → inverse transform reconstruction. FastAPI with sklearn Pipeline.",
+        "4": "Kernel PCA with multiple kernels (RBF, poly, sigmoid). Non-linear manifold learning benchmarks on Swiss roll and S-curve datasets.",
+        "5": "Combined: Regression + PCA pipeline — reduce high-dimensional features, then apply regularized regression. Compare performance vs raw features.",
+        "6": "Autoencoder-based dimensionality reduction with PyTorch. Variational autoencoder (VAE) variant for generative embeddings.",
+        "7": "Production embedding service: UMAP + HNSW approximate nearest neighbor search. FastAPI, Redis caching, batch processing for 1M+ vectors."
+      }
+    },
+    {
+      "id": "classification",
+      "order": 6,
+      "name": "Classification Algorithms",
+      "skill_tags": ["logistic_regression", "SVM", "decision_trees", "kNN", "naive_bayes", "sklearn", "imbalanced-learn"],
+      "description": "Core classification algorithms from scratch to production — binary, multiclass, and imbalanced scenarios.",
+      "levels": {
+        "1": "Logistic regression from scratch: sigmoid, binary cross-entropy loss, gradient descent, decision boundary visualization.",
+        "2": "Multi-algorithm classifier comparison: LR, SVM, kNN, Naive Bayes, Decision Tree on multiple datasets. ROC curves, confusion matrices.",
+        "3": "Production classification API with probability calibration (Platt scaling, isotonic). Threshold optimization for precision/recall tradeoff.",
+        "4": "Imbalanced classification system: SMOTE, ADASYN, cost-sensitive learning, ensemble balancing. Medical dataset (fraud/disease).",
+        "5": "Combined: PCA + SVM pipeline for high-dimensional text classification. Dimensionality reduction → kernel SVM → Platt calibration.",
+        "6": "Multi-label classification system: Label Powerset, Binary Relevance, Classifier Chains. Hierarchical label taxonomy support.",
+        "7": "Production classifier microservice: online learning (SGD), concept drift detection, automatic retraining triggers, MLflow logging, k8s-ready."
+      }
+    },
+    {
+      "id": "ensemble_methods",
+      "order": 7,
+      "name": "Ensemble Methods & Boosting",
+      "skill_tags": ["random_forest", "gradient_boosting", "XGBoost", "LightGBM", "CatBoost", "stacking", "optuna"],
+      "description": "State-of-the-art tabular ML — from bagging to gradient boosting to model stacking.",
+      "levels": {
+        "1": "Random forest from scratch: decision stumps, bagging, OOB error. Compare to sklearn RandomForest.",
+        "2": "Gradient boosting from scratch: residual fitting, learning rate, tree depth. Validate against XGBoost.",
+        "3": "AutoML-lite for tabular data: trains XGBoost/LightGBM/CatBoost, auto-tunes with Optuna, returns best model as API.",
+        "4": "Stacking ensemble framework: Level-0 diverse models (GBM, RF, LR, SVM), Level-1 meta-learner. Cross-validation blending.",
+        "5": "Combined: Boosting + feature importance pipeline — SHAP explanations, partial dependence plots, feature selection loop.",
+        "6": "Distributed XGBoost training with Dask: scale to datasets larger than RAM. Comparison vs single-node benchmarks.",
+        "7": "Production tabular ML platform: data ingestion, feature store, ensemble training, SHAP explainability API, monitoring, scheduled retraining."
+      }
+    },
+    {
+      "id": "clustering",
+      "order": 8,
+      "name": "Clustering & Unsupervised Learning",
+      "skill_tags": ["k-means", "DBSCAN", "hierarchical", "GMM", "sklearn", "scipy", "hdbscan"],
+      "description": "Finding hidden structure in data — from k-means to density-based clustering to mixture models.",
+      "levels": {
+        "1": "K-means from scratch: Lloyd's algorithm, elbow method, silhouette analysis, animated convergence visualization.",
+        "2": "Clustering algorithm zoo: K-Means, DBSCAN, Agglomerative, GMM, HDBSCAN compared on multiple synthetic and real datasets.",
+        "3": "Customer segmentation pipeline: RFM features, clustering, cluster profiling, and a FastAPI endpoint for real-time segment assignment.",
+        "4": "Gaussian Mixture Model from scratch: EM algorithm, BIC/AIC model selection, density estimation vs KDE comparison.",
+        "5": "Combined: PCA + clustering pipeline — reduce dimensions, cluster, interpret clusters in original feature space with centroid back-projection.",
+        "6": "Anomaly detection system: Isolation Forest + DBSCAN + LOF ensemble. Real-time scoring API with configurable thresholds and alert webhooks.",
+        "7": "Production clustering microservice: online clustering (Mini-Batch K-Means), concept drift detection, automatic re-clustering triggers, Prometheus metrics."
+      }
+    },
+    {
+      "id": "computer_vision",
+      "order": 9,
+      "name": "Computer Vision",
+      "skill_tags": ["OpenCV", "PyTorch", "CNN", "object_detection", "segmentation", "YOLO", "torchvision"],
+      "description": "From classical image processing to modern deep CNNs — production-grade vision systems.",
+      "levels": {
+        "1": "Classical CV toolkit: edge detection (Sobel, Canny), morphological ops, histogram equalization from scratch with OpenCV.",
+        "2": "Image classification pipeline: ResNet-18 fine-tuned on custom dataset. Data augmentation, transfer learning, evaluation dashboard.",
+        "3": "Object detection API: YOLOv8 inference endpoint. FastAPI + async processing, bounding box visualization, confidence filtering.",
+        "4": "Semantic segmentation system: U-Net trained on satellite/medical imagery. Custom loss (Dice + BCE), mIoU evaluation.",
+        "5": "Combined: CV + statistics — image quality assessment pipeline using SSIM, PSNR, BRISQUE, with statistical outlier detection.",
+        "6": "Real-time video analytics pipeline: multi-object tracking (ByteTrack), re-ID, trajectory analysis, async frame processing with Redis queue.",
+        "7": "Production CV microservice: model ensemble (detection + classification + segmentation), TensorRT optimization, FastAPI, Prometheus, k8s-ready."
+      }
+    },
+    {
+      "id": "nlp",
+      "order": 10,
+      "name": "NLP & Text Processing",
+      "skill_tags": ["spaCy", "HuggingFace", "transformers", "BERT", "text_classification", "NER", "sentence_transformers"],
+      "description": "From classical NLP to transformer-based production systems.",
+      "levels": {
+        "1": "Text preprocessing pipeline from scratch: tokenization, stemming, lemmatization, TF-IDF, cosine similarity — no NLTK/spaCy internals.",
+        "2": "Sentiment analysis system: classical ML (TF-IDF + LR) vs fine-tuned BERT. Benchmark on multiple datasets, explainability with LIME.",
+        "3": "Production NLP API: Named Entity Recognition, POS tagging, dependency parsing with spaCy. FastAPI, batch processing, caching.",
+        "4": "Document embedding search engine: Sentence-BERT + FAISS approximate nearest neighbor. Semantic search API for document corpus.",
+        "5": "Combined: NLP + clustering — topic modeling with BERTopic, automatic taxonomy generation, topic drift monitoring over time.",
+        "6": "Fine-tuned LLM for domain-specific QA: LoRA fine-tuning on custom corpus, RLHF-lite with DPO, evaluation with ROUGE/BERTScore.",
+        "7": "Production RAG pipeline: document ingestion, chunking strategies, hybrid search (BM25 + dense), reranking, hallucination detection, FastAPI."
+      }
+    },
+    {
+      "id": "time_series",
+      "order": 11,
+      "name": "Time Series Analysis & Forecasting",
+      "skill_tags": ["statsmodels", "Prophet", "ARIMA", "LSTM", "temporal_fusion_transformer", "darts", "pandas"],
+      "description": "From classical ARIMA to neural forecasting — production-grade time series systems.",
+      "levels": {
+        "1": "Time series decomposition from scratch: trend, seasonality, residuals (STL). ACF/PACF plots, stationarity tests (ADF, KPSS).",
+        "2": "ARIMA/SARIMA forecasting pipeline: auto-identification of p,d,q, rolling forecast, confidence intervals, benchmark vs naive methods.",
+        "3": "Multi-model forecasting API: Prophet, ARIMA, ETS, Theta method ensemble. FastAPI endpoint, uncertainty quantification.",
+        "4": "LSTM time series forecaster from scratch with PyTorch. Sequence-to-sequence, attention mechanism, comparison vs statistical baselines.",
+        "5": "Combined: Time series + anomaly detection — SARIMA residual monitoring, CUSUM changepoint detection, alert webhook system.",
+        "6": "Temporal Fusion Transformer (TFT) for multivariate forecasting: known/unknown covariates, interpretable attention weights, MLflow tracking.",
+        "7": "Production forecasting platform: hierarchical reconciliation (MinT), probabilistic forecasts, retraining pipeline, drift detection, Grafana dashboard."
+      }
+    },
+    {
+      "id": "recommendation_systems",
+      "order": 12,
+      "name": "Recommendation Systems",
+      "skill_tags": ["collaborative_filtering", "matrix_factorization", "ALS", "deep_learning_rec", "implicit", "lightfm"],
+      "description": "From collaborative filtering to production-grade deep recommendation engines.",
+      "levels": {
+        "1": "User-based collaborative filtering from scratch: cosine similarity, neighborhood selection, prediction on MovieLens.",
+        "2": "Matrix factorization comparison: SVD, ALS, NMF on implicit feedback data. Coverage, novelty, and diversity metrics.",
+        "3": "Production recommendation API: ALS model with implicit library. FastAPI, user/item cold-start handling, A/B test logging.",
+        "4": "Neural collaborative filtering: embedding layers, MLP interaction, BPR loss. Benchmarked vs matrix factorization.",
+        "5": "Combined: NLP + recommendations — content-based filtering using BERT embeddings for item descriptions, hybrid with CF.",
+        "6": "Two-tower retrieval model: separate user/item towers, FAISS for ANN retrieval, online learning updates.",
+        "7": "Production recommendation platform: retrieval (ANN) + ranking (XGBoost) pipeline, feature store, A/B test framework, real-time serving."
+      }
+    },
+    {
+      "id": "deep_learning",
+      "order": 13,
+      "name": "Deep Learning",
+      "skill_tags": ["PyTorch", "neural_networks", "backprop", "CNN", "RNN", "attention", "transformers"],
+      "description": "From building backprop from scratch to training transformer architectures.",
+      "levels": {
+        "1": "Neural network from scratch (no PyTorch): forward pass, backpropagation, chain rule, weight updates on XOR and MNIST.",
+        "2": "CNN from scratch with PyTorch: conv layers, pooling, batch norm, dropout, trained on CIFAR-10 with learning rate scheduling.",
+        "3": "Custom training framework: gradient checkpointing, mixed precision (torch.amp), gradient clipping, experiment logging to W&B.",
+        "4": "Attention mechanism from scratch: scaled dot-product attention, multi-head attention, positional encoding — validated against PyTorch nn.MultiheadAttention.",
+        "5": "Combined: Deep Learning + CV — Vision Transformer (ViT) from scratch, fine-tuned on a medical imaging dataset, GRAD-CAM explainability.",
+        "6": "Distributed training with PyTorch DDP: multi-GPU training, gradient synchronization, profiling with torch.profiler, FSDP for large models.",
+        "7": "Production deep learning serving: model quantization (INT8/FP16), TorchScript, ONNX export, FastAPI + async batching, latency benchmarks."
+      }
+    },
+    {
+      "id": "reinforcement_learning",
+      "order": 14,
+      "name": "Reinforcement Learning",
+      "skill_tags": ["gym", "Q-learning", "DQN", "PPO", "policy_gradient", "stable_baselines3", "ray_rllib"],
+      "description": "From tabular Q-learning to deep RL in production environments.",
+      "levels": {
+        "1": "Tabular Q-learning from scratch on GridWorld and FrozenLake. Policy visualization, convergence plots, epsilon-greedy exploration.",
+        "2": "Deep Q-Network (DQN) from scratch: experience replay, target network, epsilon decay. Train on CartPole and LunarLander.",
+        "3": "Policy gradient methods: REINFORCE, Actor-Critic (A2C) from scratch. Compare sample efficiency on continuous control tasks.",
+        "4": "PPO implementation from scratch: clipped objective, generalized advantage estimation (GAE), entropy bonus. Train on MuJoCo.",
+        "5": "Combined: RL + Deep Learning — train a CNN policy for visual navigation tasks (MiniGrid). Image observations, reward shaping.",
+        "6": "Multi-agent RL system with RLlib: cooperative and competitive environments, centralized training, decentralized execution (CTDE).",
+        "7": "Production RL system: offline RL (CQL/IQL) on logged data, policy evaluation (OPE), safe policy deployment with constraint satisfaction."
+      }
+    },
+    {
+      "id": "operations_research",
+      "order": 15,
+      "name": "Operations Research & Optimization",
+      "skill_tags": ["linear_programming", "scipy.optimize", "PuLP", "OR-Tools", "genetic_algorithms", "cvxpy"],
+      "description": "Mathematical optimization from linear programming to evolutionary algorithms.",
+      "levels": {
+        "1": "Simplex method from scratch: tableau form, pivot operations, degeneracy handling, minimization/maximization.",
+        "2": "Production LP solver: supply chain optimization with PuLP/OR-Tools. Multi-objective formulation, sensitivity analysis.",
+        "3": "Integer programming solver API: scheduling/assignment problems. FastAPI, problem definition in JSON, Gurobi/GLPK backend.",
+        "4": "Genetic algorithm framework from scratch: selection, crossover, mutation, fitness landscape visualization. TSP application.",
+        "5": "Combined: Statistics + Optimization — stochastic programming, chance constraints, Monte Carlo for robust optimization.",
+        "6": "Convex optimization engine with CVXPY: portfolio optimization, LASSO/Ridge as convex programs, custom solvers.",
+        "7": "Production optimization platform: online optimization (bandit algorithms), constraint learning from data, API with warm-starting and solution caching."
+      }
+    },
+    {
+      "id": "ab_testing",
+      "order": 16,
+      "name": "A/B Testing & Causal Inference",
+      "skill_tags": ["hypothesis_testing", "DoWhy", "causalml", "uplift_modeling", "bayesian_ab", "pymc"],
+      "description": "Rigorous experiment design and causal analysis for data-driven decisions.",
+      "levels": {
+        "1": "A/B test engine from scratch: z-test, t-test, chi-square for proportions, power/sample size calculator.",
+        "2": "Bayesian A/B testing: Beta-Binomial model, posterior distributions, expected loss, probability of being best.",
+        "3": "Production A/B test platform: experiment registration, traffic splitting, real-time stats with sequential testing (mSPRT), FastAPI.",
+        "4": "Multi-armed bandit system: Thompson Sampling, UCB1, Epsilon-Greedy. Regret analysis, contextual bandits with LinUCB.",
+        "5": "Combined: Causal inference + regression — DID (Difference-in-Differences), synthetic control, IV estimation on observational data.",
+        "6": "Uplift modeling system: S-learner, T-learner, X-learner, causal forest. Qini curves, AUUC evaluation, treatment effect visualization.",
+        "7": "Production causal ML platform: DAG specification, identification, estimation (DoWhy), refutation tests, and a decision recommendation API."
+      }
+    },
+    {
+      "id": "graph_ml",
+      "order": 17,
+      "name": "Graph ML & Graph Neural Networks",
+      "skill_tags": ["networkx", "PyG", "DGL", "node2vec", "GCN", "GAT", "GraphSAGE"],
+      "description": "From classical graph algorithms to production GNN systems.",
+      "levels": {
+        "1": "Graph algorithm library from scratch: BFS, DFS, Dijkstra, PageRank, centrality measures with NetworkX validation.",
+        "2": "Node embedding: Node2Vec, DeepWalk, LINE on citation/social graphs. Downstream classification with embeddings.",
+        "3": "GCN from scratch with PyTorch: message passing, aggregation, readout. Node/graph classification on Cora and MUTAG.",
+        "4": "Graph Attention Network (GAT): attention coefficients, multi-head attention, comparison vs GCN/GraphSAGE.",
+        "5": "Combined: GNN + NLP — heterogeneous graph of documents, entities, and relations. Link prediction for knowledge graph completion.",
+        "6": "Scalable GNN with GraphSAGE + neighbor sampling. Training on full ogbn-products dataset without full-graph materialization.",
+        "7": "Production GNN serving: dynamic graph updates, incremental embedding refresh, FAISS ANN for graph-based retrieval, FastAPI."
+      }
+    },
+    {
+      "id": "mlops",
+      "order": 18,
+      "name": "MLOps & Production ML",
+      "skill_tags": ["MLflow", "DVC", "Airflow", "Docker", "FastAPI", "Prometheus", "Grafana", "Kubernetes"],
+      "description": "End-to-end ML system design — pipelines, monitoring, and production deployment.",
+      "levels": {
+        "1": "ML experiment tracker from scratch: log parameters, metrics, artifacts to SQLite. CLI and Python API.",
+        "2": "DVC data versioning pipeline: data download, preprocessing, feature engineering, model training — all as tracked pipeline stages.",
+        "3": "Dockerized ML API: FastAPI model server, Docker Compose with Redis cache, health checks, structured logging with structlog.",
+        "4": "Airflow ML pipeline: data ingestion → preprocessing → training → evaluation → conditional deployment DAG.",
+        "5": "Combined: MLOps + ensemble — automated model comparison pipeline, champion/challenger deployment, shadow mode testing.",
+        "6": "Model monitoring system: feature drift (KS, PSI), prediction drift, data quality checks, Prometheus metrics, Grafana dashboards, alert rules.",
+        "7": "Full MLOps platform: feature store (Feast), experiment tracking (MLflow), model registry, CI/CD with GitHub Actions, k8s deployment with Helm."
+      }
+    },
+    {
+      "id": "llm_rag",
+      "order": 19,
+      "name": "LLM & RAG Systems",
+      "skill_tags": ["LangChain", "LangGraph", "OpenAI", "ChromaDB", "FAISS", "HuggingFace", "LoRA"],
+      "description": "Modern LLM application development — RAG pipelines, agents, and fine-tuning.",
+      "levels": {
+        "1": "RAG from scratch: document chunking, TF-IDF retrieval, prompt construction, LLM generation — no LangChain.",
+        "2": "Vector store RAG: embed with Sentence-BERT, store in ChromaDB/FAISS, retrieve + rerank, stream LLM response.",
+        "3": "Production RAG API: hybrid search (BM25 + dense), reranking (cross-encoder), hallucination scoring, FastAPI + async.",
+        "4": "Agentic RAG with LangGraph: tool-using agent, multi-hop reasoning, self-reflection loop, citation tracking.",
+        "5": "Combined: RAG + NLP — document structure extraction, hierarchical chunking, entity-aware retrieval, table/figure handling.",
+        "6": "LLM fine-tuning pipeline: dataset preparation, LoRA/QLoRA training with TRL, evaluation (MMLU, custom evals), model merging.",
+        "7": "Production LLM platform: multi-model routing, prompt caching, guardrails (hallucination + toxicity), cost tracking, full observability."
+      }
+    },
+    {
+      "id": "multi_agent",
+      "order": 20,
+      "name": "Multi-Agent AI Systems",
+      "skill_tags": ["LangGraph", "CrewAI", "AutoGen", "durable_execution", "tool_use", "memory", "MCP"],
+      "description": "State-of-the-art autonomous agent architectures — from simple ReAct loops to multi-agent production systems.",
+      "levels": {
+        "1": "ReAct agent from scratch: thought-action-observation loop, custom tool registry, search + calculator + code tools.",
+        "2": "Specialized agent team: researcher + writer + critic agents with LangGraph orchestration and human-in-the-loop checkpoints.",
+        "3": "Production agent API: tool-using FastAPI agent, streaming responses, conversation memory (Redis), rate limiting.",
+        "4": "Durable long-running agent: checkpointing, resumability after failure, quota-aware execution, audit log.",
+        "5": "Combined: Agent + MLOps — autonomous ML engineer agent that proposes experiments, runs them, and reports results.",
+        "6": "Multi-agent swarm: parallel sub-agents with task decomposition, result aggregation, conflict resolution, supervisor pattern.",
+        "7": "Production multi-agent platform: agent registry, capability discovery, inter-agent communication protocol (MCP), monitoring, cost governance."
+      }
+    }
+  ]
+}

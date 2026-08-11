@@ -15,8 +15,7 @@ from langgraph.graph import StateGraph, END
 
 from graph.state import ProjectState
 from graph.nodes import (
-    research_trending_tech,
-    generate_project_plan,
+    select_from_curriculum,
     send_plan_to_user,
     wait_for_plan_approval,
     handle_plan_rejection,
@@ -34,17 +33,16 @@ def build_graph() -> StateGraph:
     builder = StateGraph(ProjectState)
 
     # ── Register all nodes ────────────────────────────────────────────────
-    builder.add_node("check_ongoing_project",   check_ongoing_project)
-    builder.add_node("research_trending_tech",  research_trending_tech)
-    builder.add_node("generate_project_plan",   generate_project_plan)
-    builder.add_node("send_plan_to_user",       send_plan_to_user)
-    builder.add_node("wait_for_plan_approval",  wait_for_plan_approval)
-    builder.add_node("handle_plan_rejection",   handle_plan_rejection)
-    builder.add_node("setup_new_project",       setup_new_project)
-    builder.add_node("build_next_phase",        build_next_phase)
-    builder.add_node("push_phase",              push_phase)
+    builder.add_node("check_ongoing_project",      check_ongoing_project)
+    builder.add_node("select_from_curriculum",     select_from_curriculum)
+    builder.add_node("send_plan_to_user",          send_plan_to_user)
+    builder.add_node("wait_for_plan_approval",     wait_for_plan_approval)
+    builder.add_node("handle_plan_rejection",      handle_plan_rejection)
+    builder.add_node("setup_new_project",          setup_new_project)
+    builder.add_node("build_next_phase",           build_next_phase)
+    builder.add_node("push_phase",                 push_phase)
     builder.add_node("send_daily_progress_report", send_daily_progress_report)
-    builder.add_node("finalize_project",        finalize_project)
+    builder.add_node("finalize_project",           finalize_project)
 
     # ── Entry point ───────────────────────────────────────────────────────
     builder.set_entry_point("check_ongoing_project")
@@ -54,27 +52,26 @@ def build_graph() -> StateGraph:
         "check_ongoing_project",
         route_after_check,
         {
-            "build_next_phase":       "build_next_phase",
-            "research_trending_tech": "research_trending_tech",
+            "build_next_phase":      "build_next_phase",
+            "select_from_curriculum": "select_from_curriculum",
         },
     )
 
-    # ── Research → Plan → Propose → Approve ───────────────────────────────
-    builder.add_edge("research_trending_tech", "generate_project_plan")
-    builder.add_edge("generate_project_plan",  "send_plan_to_user")
+    # Curriculum → Propose → Approve ─────────────────────────────────────
+    builder.add_edge("select_from_curriculum", "send_plan_to_user")
     builder.add_edge("send_plan_to_user",      "wait_for_plan_approval")
 
     builder.add_conditional_edges(
         "wait_for_plan_approval",
         route_after_approval,
         {
-            "setup_new_project":    "setup_new_project",
+            "setup_new_project":     "setup_new_project",
             "handle_plan_rejection": "handle_plan_rejection",
         },
     )
 
-    # Rejection loops back to fresh research
-    builder.add_edge("handle_plan_rejection",  "research_trending_tech")
+    # Rejection loops back to curriculum (next level/topic)
+    builder.add_edge("handle_plan_rejection",  "select_from_curriculum")
 
     # Approved → setup → first phase build
     builder.add_edge("setup_new_project",      "build_next_phase")

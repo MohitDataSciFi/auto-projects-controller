@@ -90,51 +90,63 @@ def _poll_one_reply(after_offset: int, wait_seconds: int) -> tuple:
 # ── Nodes ─────────────────────────────────────────────────────────────────────
 
 def send_plan_to_user(state: ProjectState) -> dict:
-    plan = state["project_plan"]
-    slug      = plan["slug"]
-    lang      = plan["language"].capitalize()
-    duration  = plan["duration_days"]
-    tech      = " · ".join(plan.get("tech_stack", []))
-    trend     = plan.get("trend_tag", "")
-    complexity = plan.get("complexity", "Advanced")
-    phases    = plan.get("phases", [])
+    plan         = state["project_plan"]
+    slug         = plan["slug"]
+    lang         = plan["language"].capitalize()
+    duration     = plan["duration_days"]
+    tech         = " · ".join(plan.get("tech_stack", []))
+    trend        = plan.get("trend_tag", "")
+    complexity   = plan.get("complexity", "Advanced")
+    phases       = plan.get("phases", [])
+    topic        = plan.get("topic", "")
+    level        = plan.get("level", 1)
+    combined     = plan.get("combined_skills", [])
 
     phase_lines = "\n".join(
         f"  [DAY {i+1}] {p['name']}"
         for i, p in enumerate(phases)
     )
 
+    combined_str = ""
+    if combined:
+        combined_str = (
+            f"\n🔗 <b>Combined Skills:</b>\n"
+            + "\n".join(f"  ▸ {s}" for s in combined) + "\n"
+        )
+
+    level_bar = "█" * level + "░" * (7 - level)
+
     import datetime
     today = datetime.datetime.now().strftime("%b %d, %Y").upper()
-
     offset = tg_get_latest_offset()
 
     tg_send(
-        f"⚡ <b>SYSTEM RESEARCH REPORT — {today}</b>\n"
+        f"⚡ <b>CURRICULUM BUILD PROPOSAL — {today}</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"🔬 <b>TREND IDENTIFIED</b>\n"
-        f"{trend}\n\n"
+        f"📚 <b>CURRICULUM POSITION</b>\n"
+        f"◈ Topic: <b>{topic}</b>\n"
+        f"◈ Level: <b>{level}/7</b> — {complexity}\n"
+        f"◈ Difficulty: [{level_bar}]\n\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
         f"📋 <b>PROJECT PROPOSAL</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
         f"◈ <b>Name:</b> <code>{slug}</code>\n"
         f"◈ <b>Language:</b> {lang}\n"
-        f"◈ <b>Duration:</b> {duration} Days\n"
-        f"◈ <b>Complexity:</b> {complexity}\n\n"
+        f"◈ <b>Duration:</b> {duration} Day(s)\n\n"
         f"🔬 <b>Tech Stack:</b>\n"
-        f"  ▸ {tech}\n\n"
-        f"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"📐 <b>PHASE BREAKDOWN</b>\n"
+        f"  ▸ {tech}\n"
+        f"{combined_str}"
+        f"\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"📐 <b>BUILD PHASES</b>\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
         f"{phase_lines}\n\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"Authorization required.\n"
-        f"Reply <b>YES</b> ✅ to initiate build sequence\n"
-        f"Reply <b>NO</b> ❌ to discard and research a new target\n"
-        f"⏱ <i>Auto-initiates in 1 hour if no response received.</i>"
+        f"Reply <b>YES</b> ✅ to authorize build\n"
+        f"Reply <b>NO</b> ❌ to skip — next level project will be proposed\n"
+        f"⏱ <i>Auto-authorizes in 1 hour if no response.</i>"
     )
 
-    print(f"[send_plan_to_user] Plan sent for '{slug}'")
+    print(f"[send_plan_to_user] Plan sent: {slug} | Topic: {topic} | Level {level}/7")
     return {"tg_offset": offset}
 
 
