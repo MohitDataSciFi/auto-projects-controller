@@ -2,15 +2,16 @@
   "active_project": null,
   "curriculum_state": {
     "topic_order": 1,
-    "level": 1,
+    "level": 2,
     "week_number": 1,
-    "projects_done_in_topic": 0
+    "projects_done_in_topic": 1
   },
   "used_slugs": [
     "eda-report-generator",
     "data-quality-dashboard",
     "api-data-fetcher",
-    "web-scraper-template"
+    "web-scraper-template",
+    "manual-linear-regression-from-scratch"
   ],
   "run_history": [
     {
@@ -37,6 +38,12 @@
       "slug": "web-scraper-template",
       "commits_made": 5,
       "repo_url": "https://github.com/MohitDataSciFi/web-scraper-template"
+    },
+    {
+      "date": "20260811",
+      "slug": "manual-linear-regression-from-scratch",
+      "repo": "manual-linear-regression-from-scratch",
+      "status": "complete"
     }
   ]
 }
