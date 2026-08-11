@@ -232,7 +232,10 @@ def build_next_phase(state: ProjectState) -> dict:
     except subprocess.CalledProcessError:
         _run(["git", "checkout", "-b", "dev"], cwd=slug)
 
-    _run(["git", "pull", "origin", "dev", "--rebase"], cwd=slug)
+    try:
+        _run(["git", "pull", "origin", "dev", "--rebase"], cwd=slug)
+    except subprocess.CalledProcessError:
+        print("[build_next_phase] Remote dev branch not found, skipping pull.")
 
     # ── Generate code for this specific phase ─────────────────────────────
     prev_phases = "\n".join(
