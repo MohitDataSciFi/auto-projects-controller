@@ -15,6 +15,37 @@ import requests
 from graph.state import ProjectState
 
 DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
+GITHUB_API       = "https://api.github.com"
+
+
+def _search_github_references(topic_name: str, skill_tags: list, gh_token: str) -> str:
+    """Search GitHub for top repos related to the current topic for LLM reference."""
+    query = f"{' '.join(skill_tags[:3])} language:python stars:>50"
+    try:
+        resp = requests.get(
+            f"{GITHUB_API}/search/repositories",
+            headers={
+                "Authorization": f"Bearer {gh_token}",
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            },
+            params={"q": query, "sort": "stars", "order": "desc", "per_page": 5},
+            timeout=10,
+        )
+        if resp.status_code != 200:
+            return ""
+        items = resp.json().get("items", [])
+        if not items:
+            return ""
+        lines = [f"Top GitHub repos for '{topic_name}' (use as structural reference):"]
+        for item in items[:5]:
+            lines.append(
+                f"  - {item['full_name']} ⭐{item['stargazers_count']:,}: {item['description'] or 'No description'}"
+            )
+        return "\n".join(lines)
+    except Exception as e:
+        print(f"[github_search] Warning: {e}")
+        return ""
 
 
 def _llm(system: str, user: str, api_key: str, temperature: float = 0.5) -> str:
@@ -122,6 +153,12 @@ def select_from_curriculum(state: ProjectState) -> dict:
 
     print(f"[select_from_curriculum] Topic: {topic_name} | Level: {level} ({difficulty}) | Week: {week_number}")
 
+    # Search GitHub for real reference repos on this topic
+    gh_token        = state.get("gh_token", "")
+    github_refs_str = _search_github_references(topic_name, skill_tags, gh_token)
+    if github_refs_str:
+        print(f"[select_from_curriculum] Found GitHub references for context.")
+
     # Determine duration: simple projects 1 day, complex 3-5 days
     duration_map = {1: 1, 2: 1, 3: 2, 4: 3, 5: 3, 6: 5, 7: 7}
     duration_days = duration_map.get(level, 3)
@@ -138,6 +175,8 @@ Level goal: {level_goal}
 Main skills: {', '.join(skill_tags)}{combined_str}
 
 Already completed slugs (avoid these): {', '.join(used_slugs[-20:]) if used_slugs else 'none'}
+
+{github_refs_str}
 
 Design a SPECIFIC, production-grade open-source project for this level.
 

@@ -1,0 +1,33 @@
+name: Weekly Progress Report
+
+on:
+  schedule:
+    # Every Sunday at 6:00 PM IST (12:30 UTC)
+    - cron: '30 12 * * 0'
+  workflow_dispatch:
+
+env:
+  GH_TOKEN:           ${{ secrets.GH_PAT }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+
+permissions:
+  contents: read
+
+jobs:
+  weekly-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Send weekly Telegram report
+        run: python weekly_report.py

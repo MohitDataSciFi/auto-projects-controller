@@ -140,9 +140,39 @@ Output ONLY raw markdown.""",
     with open(os.path.join(slug, "README.md"), "w") as f:
         f.write(readme)
 
+    # Add CI/CD workflow to the generated repo
+    ci_dir = os.path.join(slug, ".github", "workflows")
+    os.makedirs(ci_dir, exist_ok=True)
+    ci_workflow = f"""name: CI
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run tests
+        run: pytest tests/ -v --tb=short --cov=src --cov-report=term-missing
+"""
+    with open(os.path.join(ci_dir, "ci.yml"), "w") as f:
+        f.write(ci_workflow)
+
     # Initial commit on main
-    _run(["git", "add", "README.md"], cwd=slug)
-    _run(["git", "commit", "-m", f"docs: initial README with full phase roadmap for {slug}"], cwd=slug)
+    _run(["git", "add", "."], cwd=slug)
+    _run(["git", "commit", "-m", f"docs: initial README, CI/CD workflow for {slug}"], cwd=slug)
     _run(["git", "branch", "-M", "main"], cwd=slug)
     _run(["git", "push", "-u", "origin", "main"], cwd=slug)
     _run(["git", "checkout", "-b", "dev"], cwd=slug)
@@ -276,13 +306,31 @@ Output ONLY raw code. No markdown. No explanations."""
             _run(["git", "add", "requirements.txt"], cwd=slug)
             do_commit("chore: add project dependencies")
 
-        # Tests scaffold
-        test_dir  = f"tests/test_phase_{phase_idx + 1}.py"
+        # Generate real working tests with LLM
+        test_dir = f"tests/test_phase_{phase_idx + 1}.py"
         os.makedirs(os.path.join(slug, "tests"), exist_ok=True)
+        test_code = _llm(
+            f"You write concise, real pytest test suites for Python ML/AI code.",
+            f"""Write a real pytest test file for this {lang} code from phase '{phase['name']}':
+
+Project: {slug}
+Phase goal: {phase['goal']}
+Main file: {main_file}
+
+Code:
+```python
+{code[:3000]}
+```
+
+Write 3-5 real, meaningful pytest test functions that actually test the core logic.
+Use fixtures where appropriate. Mock external calls (API, DB) with unittest.mock.
+Output ONLY raw Python code. No markdown.""",
+            api_key, temperature=0.2
+        )
         with open(os.path.join(slug, test_dir), "w") as f:
-            f.write(f"\"\"\"Tests for {phase['name']}\"\"\"\nimport pytest\n\ndef test_placeholder():\n    assert True\n")
+            f.write(test_code)
         _run(["git", "add", test_dir], cwd=slug)
-        do_commit(f"test: add test scaffold for {phase['name']}")
+        do_commit(f"test: add real unit tests for {phase['name']}")
 
     elif lang == "rust":
         if phase_idx == 0:
