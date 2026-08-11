@@ -1,20 +1,12 @@
 """
-main.py — Entry point for the LangGraph DS/DE project automation system.
+main.py — LangGraph DS/DE Project Automation Engine v2.0
 
-Builds and runs the StateGraph:
-
-  START
-    └─► select_project
-          └─► send_approval_request
-                └─► wait_for_approval
-                      ├─ approved/timeout ─► generate_artifacts ─► create_repo
-                      │                         └─► scaffold_project
-                      │                               └─► push_and_merge_pr
-                      │                                     └─► update_state
-                      │                                           └─► send_report ─► END
-                      └─ rejected ─► handle_rejection
-                                          ├─ ideas left ─► select_project  (loop)
-                                          └─ none left  ─► END
+Daily workflow:
+  ┌─ Has active project? ──YES──► build_next_phase ──► push ──► report
+  │                                                               │
+  └─ No ──► research ──► plan ──► propose ──► approve           ├─ More phases? ──► END (resumes tomorrow)
+                                                │                └─ Done? ──► finalize ──► END
+                              rejected ──► research (loop)
 """
 
 import os
@@ -23,111 +15,127 @@ from langgraph.graph import StateGraph, END
 
 from graph.state import ProjectState
 from graph.nodes import (
-    select_project,
-    send_approval_request,
-    wait_for_approval,
-    handle_rejection,
-    generate_artifacts,
-    create_repo,
-    scaffold_project,
-    push_and_merge_pr,
-    update_state,
-    send_report,
+    research_trending_tech,
+    generate_project_plan,
+    send_plan_to_user,
+    wait_for_plan_approval,
+    handle_plan_rejection,
+    check_ongoing_project,
+    setup_new_project,
+    build_next_phase,
+    push_phase,
+    finalize_project,
+    send_daily_progress_report,
 )
-from graph.edges import route_after_approval, route_after_rejection
+from graph.edges import route_after_check, route_after_approval, route_after_phase
 
 
 def build_graph() -> StateGraph:
     builder = StateGraph(ProjectState)
 
-    # ── Register nodes ────────────────────────────────────────────────────
-    builder.add_node("select_project",          select_project)
-    builder.add_node("send_approval_request",   send_approval_request)
-    builder.add_node("wait_for_approval",       wait_for_approval)
-    builder.add_node("handle_rejection",        handle_rejection)
-    builder.add_node("generate_artifacts",      generate_artifacts)
-    builder.add_node("create_repo",             create_repo)
-    builder.add_node("scaffold_project",        scaffold_project)
-    builder.add_node("push_and_merge_pr",       push_and_merge_pr)
-    builder.add_node("update_state",            update_state)
-    builder.add_node("send_report",             send_report)
+    # ── Register all nodes ────────────────────────────────────────────────
+    builder.add_node("check_ongoing_project",   check_ongoing_project)
+    builder.add_node("research_trending_tech",  research_trending_tech)
+    builder.add_node("generate_project_plan",   generate_project_plan)
+    builder.add_node("send_plan_to_user",       send_plan_to_user)
+    builder.add_node("wait_for_plan_approval",  wait_for_plan_approval)
+    builder.add_node("handle_plan_rejection",   handle_plan_rejection)
+    builder.add_node("setup_new_project",       setup_new_project)
+    builder.add_node("build_next_phase",        build_next_phase)
+    builder.add_node("push_phase",              push_phase)
+    builder.add_node("send_daily_progress_report", send_daily_progress_report)
+    builder.add_node("finalize_project",        finalize_project)
 
-    # ── Linear edges ──────────────────────────────────────────────────────
-    builder.add_edge("select_project",        "send_approval_request")
-    builder.add_edge("send_approval_request", "wait_for_approval")
-    builder.add_edge("generate_artifacts",    "create_repo")
-    builder.add_edge("create_repo",           "scaffold_project")
-    builder.add_edge("scaffold_project",      "push_and_merge_pr")
-    builder.add_edge("push_and_merge_pr",     "update_state")
-    builder.add_edge("update_state",          "send_report")
-    builder.add_edge("send_report",           END)
+    # ── Entry point ───────────────────────────────────────────────────────
+    builder.set_entry_point("check_ongoing_project")
 
-    # ── Conditional edges ─────────────────────────────────────────────────
+    # ── Conditional: ongoing vs. new research ─────────────────────────────
     builder.add_conditional_edges(
-        "wait_for_approval",
+        "check_ongoing_project",
+        route_after_check,
+        {
+            "build_next_phase":       "build_next_phase",
+            "research_trending_tech": "research_trending_tech",
+        },
+    )
+
+    # ── Research → Plan → Propose → Approve ───────────────────────────────
+    builder.add_edge("research_trending_tech", "generate_project_plan")
+    builder.add_edge("generate_project_plan",  "send_plan_to_user")
+    builder.add_edge("send_plan_to_user",      "wait_for_plan_approval")
+
+    builder.add_conditional_edges(
+        "wait_for_plan_approval",
         route_after_approval,
         {
-            "generate_artifacts": "generate_artifacts",
-            "handle_rejection":   "handle_rejection",
-        },
-    )
-    builder.add_conditional_edges(
-        "handle_rejection",
-        route_after_rejection,
-        {
-            "select_project": "select_project",
-            END:              END,
+            "setup_new_project":    "setup_new_project",
+            "handle_plan_rejection": "handle_plan_rejection",
         },
     )
 
-    builder.set_entry_point("select_project")
+    # Rejection loops back to fresh research
+    builder.add_edge("handle_plan_rejection",  "research_trending_tech")
+
+    # Approved → setup → first phase build
+    builder.add_edge("setup_new_project",      "build_next_phase")
+
+    # ── Phase pipeline ────────────────────────────────────────────────────
+    builder.add_edge("build_next_phase",            "push_phase")
+    builder.add_edge("push_phase",                  "send_daily_progress_report")
+
+    builder.add_conditional_edges(
+        "send_daily_progress_report",
+        route_after_phase,
+        {
+            "finalize_project": "finalize_project",
+            END:                END,
+        },
+    )
+
+    builder.add_edge("finalize_project", END)
+
     return builder.compile()
 
 
 def main():
     api_key  = os.environ.get("DEEPSEEK_API_KEY")
     gh_token = os.environ.get("GH_TOKEN")
+    if not api_key:  raise ValueError("DEEPSEEK_API_KEY not set")
+    if not gh_token: raise ValueError("GH_TOKEN not set")
 
-    if not api_key:
-        raise ValueError("DEEPSEEK_API_KEY environment variable not set")
-    if not gh_token:
-        raise ValueError("GH_TOKEN environment variable not set")
-
-    with open("projects.json") as f:
-        all_projects = json.load(f)
     with open("state.json") as f:
-        state_data = json.load(f)
+        persisted = json.load(f)
 
-    used_slugs = state_data.get("used_slugs", [])
-    available  = [p for p in all_projects if p["slug"] not in used_slugs]
-
-    if not available:
-        print("No available projects left. Add more ideas to projects.json.")
-        return
-
-    # Build initial state
     initial_state: ProjectState = {
-        "available_projects": all_projects,
-        "skipped_slugs":      used_slugs,   # treat already-used as skipped too
-        "selected_project":   {},
-        "approval_status":    "pending",
-        "tg_offset":          0,
-        "code_content":       "",
-        "readme_content":     "",
-        "summary_text":       "",
-        "repo_name":          "",
-        "repo_url":           "",
-        "num_commits":        0,
-        "commit_log":         [],
-        "api_key":            api_key,
-        "gh_token":           gh_token,
-        "error":              None,
+        # Research (empty until nodes populate)
+        "tech_research":   "",
+        "project_plan":    {},
+
+        # Active project (populated by check_ongoing_project)
+        "active_project":  {},
+
+        # Approval
+        "approval_status": "pending",
+        "tg_offset":       0,
+
+        # Phase build
+        "commit_log":     [],
+        "num_commits":    0,
+        "phase_summary":  "",
+
+        # Runtime
+        "api_key":   api_key,
+        "gh_token":  gh_token,
+        "error":     None,
+
+        # Internal (used by research node for dedup)
+        "_used_slugs_for_research": persisted.get("used_slugs", []),
     }
 
     graph = build_graph()
-    print("🚀 Starting LangGraph automation...")
+    print("⚡ SYSTEM ONLINE. Initiating daily automation sequence...")
     graph.invoke(initial_state)
-    print("✅ Graph completed.")
+    print("✅ Sequence complete.")
 
 
 if __name__ == "__main__":

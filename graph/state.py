@@ -2,28 +2,26 @@ from typing import TypedDict, Optional
 
 
 class ProjectState(TypedDict):
-    # ── Idea bank ──────────────────────────────────────────────────────────
-    available_projects: list   # list of {slug, description, language}
-    skipped_slugs: list        # slugs rejected by user this run
+    # ── Research output ────────────────────────────────────────────────────
+    tech_research:  str    # Raw LLM research output on trending tech
+    project_plan:   dict   # {slug, description, language, tech_stack, duration_days, phases}
+                           # phases: [{name, goal, status}]
 
-    # ── Selected project ───────────────────────────────────────────────────
-    selected_project: dict     # {slug, description, language}
-    approval_status: str       # "pending" | "approved" | "rejected" | "timeout"
-    tg_offset: int             # Telegram update_id offset for fresh reply polling
+    # ── Active project (loaded from state.json or newly created) ───────────
+    active_project: dict   # {slug, repo_name, repo_url, language,
+                           #  current_phase_idx, phases: [{name, goal, status}]}
 
-    # ── LLM outputs ────────────────────────────────────────────────────────
-    code_content: str
-    readme_content: str
-    summary_text: str
+    # ── Approval flow ──────────────────────────────────────────────────────
+    approval_status: str   # "pending" | "approved" | "rejected" | "timeout"
+    tg_offset:       int   # Telegram update_id offset for fresh reply polling
 
-    # ── Repo & commits ─────────────────────────────────────────────────────
-    repo_name: str
-    repo_url: str
-    num_commits: int
-    commit_log: list           # list of [timestamp_str, message]
+    # ── Phase build results ────────────────────────────────────────────────
+    commit_log:    list    # [[time_str, message], ...]
+    num_commits:   int
+    phase_summary: str     # LLM-generated summary of what was built this phase
 
-    # ── Runtime credentials (injected at start) ────────────────────────────
-    api_key: str
+    # ── Runtime credentials ────────────────────────────────────────────────
+    api_key:  str
     gh_token: str
 
     # ── Error tracking ─────────────────────────────────────────────────────

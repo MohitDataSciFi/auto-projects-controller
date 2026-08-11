@@ -1,18 +1,18 @@
-from graph.nodes.select   import select_project
-from graph.nodes.approval import send_approval_request, wait_for_approval, handle_rejection
-from graph.nodes.artifacts import generate_artifacts
-from graph.nodes.repo     import create_repo, scaffold_project, push_and_merge_pr
-from graph.nodes.report   import update_state, send_report
+from graph.nodes.research  import research_trending_tech, generate_project_plan
+from graph.nodes.approval  import send_plan_to_user, wait_for_plan_approval, handle_plan_rejection
+from graph.nodes.phases    import check_ongoing_project, setup_new_project, build_next_phase, push_phase, finalize_project
+from graph.nodes.report    import send_daily_progress_report
 
 __all__ = [
-    "select_project",
-    "send_approval_request",
-    "wait_for_approval",
-    "handle_rejection",
-    "generate_artifacts",
-    "create_repo",
-    "scaffold_project",
-    "push_and_merge_pr",
-    "update_state",
-    "send_report",
+    "research_trending_tech",
+    "generate_project_plan",
+    "send_plan_to_user",
+    "wait_for_plan_approval",
+    "handle_plan_rejection",
+    "check_ongoing_project",
+    "setup_new_project",
+    "build_next_phase",
+    "push_phase",
+    "finalize_project",
+    "send_daily_progress_report",
 ]
