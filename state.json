@@ -1,10 +1,51 @@
 {
-  "active_project": null,
+  "active_project": {
+    "slug": "regression-api-service",
+    "repo_name": "regression-api-service",
+    "repo_url": "https://github.com/MohitDataSciFi/regression-api-service",
+    "language": "python",
+    "description": "Production-grade FastAPI service for training and serving regression models with validation, logging, and tests.",
+    "tech_stack": [
+      "fastapi",
+      "pydantic",
+      "scikit-learn",
+      "statsmodels",
+      "joblib",
+      "pytest",
+      "uvicorn",
+      "numpy"
+    ],
+    "current_phase_idx": 0,
+    "phases": [
+      {
+        "name": "Phase 1: Core Model Training and Serialization",
+        "goal": "Implement a regression model manager that trains an OLS model using scikit-learn and statsmodels, computes diagnostics (R\u00b2, coefficients, p-values), and serializes the model with joblib. Expose a training endpoint that accepts CSV data via multipart upload, validates with Pydantic, and returns training metrics. Set up structured logging and basic error handling.",
+        "key_files": [
+          "src/model_manager.py",
+          "src/schemas.py",
+          "src/api.py"
+        ],
+        "commit_prefix": "feat",
+        "status": "pending"
+      },
+      {
+        "name": "Phase 2: Prediction API, Testing, and Deployment Readiness",
+        "goal": "Add a prediction endpoint that loads the serialized model and returns predictions with confidence intervals. Implement comprehensive input validation using Pydantic models, add unit tests with pytest covering training and prediction flows, and include Dockerfile and uvicorn configuration for production deployment. Ensure graceful handling of missing model and invalid inputs with appropriate HTTP status codes.",
+        "key_files": [
+          "src/api.py",
+          "tests/test_api.py",
+          "Dockerfile"
+        ],
+        "commit_prefix": "feat",
+        "status": "pending"
+      }
+    ]
+  },
   "curriculum_state": {
     "topic_order": 1,
-    "level": 3,
+    "level": 4,
     "week_number": 1,
-    "projects_done_in_topic": 2
+    "projects_done_in_topic": 3
   },
   "used_slugs": [
     "eda-report-generator",
