@@ -165,7 +165,7 @@ jobs:
           pip install pytest pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run tests
-        run: pytest tests/ -v --tb=short --cov=src --cov-report=term-missing
+        run: PYTHONPATH=. pytest tests/ -v --tb=short --cov=src --cov-report=term-missing
 """
     with open(os.path.join(ci_dir, "ci.yml"), "w") as f:
         f.write(ci_workflow)
