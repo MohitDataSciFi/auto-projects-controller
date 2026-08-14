@@ -172,7 +172,7 @@ jobs:
 
     # Initial commit on main
     _run(["git", "add", "."], cwd=slug)
-    _run(["git", "commit", "-m", f"docs: initial README, CI/CD workflow for {slug}"], cwd=slug)
+    _run(["git", "commit", "--allow-empty", "-m", f"docs: initial README, CI/CD workflow for {slug}"], cwd=slug)
     _run(["git", "branch", "-M", "main"], cwd=slug)
     _run(["git", "push", "-u", "origin", "main"], cwd=slug)
     _run(["git", "checkout", "-b", "dev"], cwd=slug)
@@ -282,7 +282,7 @@ Output ONLY raw code. No markdown. No explanations."""
         nonlocal commit_idx
         ts     = ts_list[commit_idx] if commit_idx < len(ts_list) else ts_list[-1]
         ts_str = ts.strftime("%Y-%m-%dT%H:%M:%S")
-        _run(["git", "commit", "-m", msg], cwd=slug,
+        _run(["git", "commit", "--allow-empty", "-m", msg], cwd=slug,
              env_extra={"GIT_AUTHOR_DATE": ts_str, "GIT_COMMITTER_DATE": ts_str})
         commit_log.append([ts.strftime("%I:%M %p"), msg])
         commit_idx += 1
