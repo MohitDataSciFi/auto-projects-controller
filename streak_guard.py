@@ -65,8 +65,8 @@ def main():
 
     try:
         run(["git", "clone", auth_url, slug])
-        run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"], cwd=slug)
-        run(["git", "config", "user.name", "github-actions[bot]"], cwd=slug)
+        run(["git", "config", "user.email", "145323651+MohitDataSciFi@users.noreply.github.com"], cwd=slug)
+        run(["git", "config", "user.name", "MohitDataSciFi"], cwd=slug)
 
         # Make a small maintenance commit
         with open(os.path.join(slug, "MAINTENANCE.md"), "w") as f:
